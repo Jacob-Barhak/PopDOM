@@ -1,0 +1,54 @@
+ProblemParameters:
+        OutputPopualtionSize : 617        # The size of the population to be generated
+        Probabilities : [0.32,0.75,0.47]  # Risk factor probabilities defined in the order R1, R2, ... Rn where Rn can be the Output
+        OddsRatios : [3.6,2.8,2.6]        # Order of Odds ratios: Rn\Rn-1, Rn\Rn-2...Rn-1\Rn-2, Rn-1\Rn-2...R2\R1
+        DivisionRatios : [None,None,None] # Risk factor of the form Rn/Rn-1 defined in the order R1, R2, ... Rn where Rn can be the Output
+        ProbabilityWeights : 10           # Weight assigned to probability when calculating fitness
+        OddsRatiosWeights : 1             # Weight assigned to odds ratios when calculating fitness
+        DivisionRatiosWeights : 1         # Weight assigned to division ratios when calculating fitness
+
+
+
+
+
+ExecutionParameters:
+        DaskClientAddress : "127.0.0.1:8786"                         # Use None on one machine to avoid distributed computation, use 0 to launch a local distributed server, use IP:port of server if dask server is launched externally - default server is usually "127.0.0.1:8786" yet this can change
+        WorkingDirectory : None                                      # Define the working directory, use None to use the directory launched from
+        OutputPopulationFileNamePattern : OutputPopulation_%i_%i.csv # Define the file pattern to use fro results
+        OutputPopulationIndexTuple : None                            # Define a tuple with information to apply to file pattern, use None to default to ProbabilityOptimizationIteration,EvolutionaryComputationIteration
+        NumberOfRepetitions : 100                                    # Number of times to repeat simulations
+        RandomSeedFunction : DefaultRandomSeedFunction               # If None RandomSeed is used for all simulations, if DefaultRandomSeedFunction is used, the system will override RandomSeed with the simulation number 
+        RandomSeed : None                                            # Defines the Random seed of simulation - can be overridden by RandomSeedFunction for multiple simulations
+        AggregateOutputFileName : OddsPopAggregateResults_%i.csv     # The filename containing the statistics of multiple simulations
+        TimesToRetryFileWrite : 3                                    # Number of times to retry file write before reporting error
+        SkipPhases : []                                              # Write the phases in simulation to skip chose from the list ["EC","Summarize","Plot"] - generally should be [] for a full simulation run
+
+
+OptimizationParameters:
+        PopulationOfPopulationsSize : 100                       # Defines the solution population size during Evolutionary Computation
+        MaxEvaluations : 50000                                  # Stop Criteria for Evolutionary Computation defining the number of evaluations of the fitness function to be reached to stop evolution
+        NumberSelected : 100                                    # Number of solution to be selected - by default should be the same as  PopulationOfPopulationsSize
+        MutationRate1 : 0                                       # Mutation rate for first mutation mutating bits in the solution - note that this may skew the population towards the middle due to flip of bits - so use this mutator carefully - recommended to keep it at 0 rate
+        MutationRate2 : 0.02                                    # Mutation rate for the second mutation that swaps two characteristics in the solution
+        MutationRate3 : 0.01                                    # Mutation rate for the third mutation that re-rolls and regenerates the candidate
+        NumberOfElites : 2                                      # Number of elites to be used in new population - at least 1 is recommended to help convergence
+        FitnessDiffFunction : AbsoluteDiff                      # The type of difference function when calculating fitness, chosen from: AbsoluteDiff or RelativeDiff
+        OddsRatiosCalculationFunction : OddsRatiosByDefinition  # The type of function to use when calculating Odds Rations from OddsRatiosByDefinition or OddsRatiosByRegression. OddsRatiosByDefinition means AD/(BC) definition and OddsRatiosByRegression means extracting coefficients from logistic regression
+        MaxIterationsForInitialProbabilityOptimization: 1       # Number of iterations to conduct when changing initial probabilities marked as adjustable (negative) to last iteration average probability
+        ToleranceForInitialProbabilityOptimization: 0.001       # The precision requested for the initial probability difference norm between initial probability and after optimization results to stop iterating
+        IterationStrategy : [] # If None, run drift analysis, otherwise a nested list of probabilities to walk from should be provided
+
+
+PlotParameters:
+        PlotFileName : PlotAggregateResults_%i.html         # The html file pattern name containing summary plots using the tuple OutputPopulationIndexTuple
+        PlotImageFileName : PlotAggregateResults_%i.png     # The image file name containing the summary plots using the tuple OutputPopulationIndexTuple
+        PlotFileWorksOffline : True                         # Does the html file works off-line - if False Internet connection will be needed, If True, the file will be larger
+        HistogramNumberOfBins : 10                          # Number of bins in the Histogram
+        HistogramPlotTitle : ["Prevalence Probabilities", "Odds Ratios", "Division Ratios", "Spread Histogram", "Odds Ratios Histogram", "Division Ratios Histogram"]     # Title of the three plots - if None the plot is skipped
+        ProbabilitiesTitles : ["SEPSIS" , "OXYGEN" , "ROP"] # List of titles of probabilities. If none, the system will use default name
+        OddsRatiosTitles : None                             # List of titles of Odd ratios - if None the system will use probability names to deduce the odds
+        LaunchPlotInBrowser : True                          # If True the system will launch a browser and show the html file with the plots after creation
+
+
+
+
