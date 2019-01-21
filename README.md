@@ -46,12 +46,12 @@ python MyProblem.yaml
 
 FILES:
 ------
-PopDOM.py : Main file with calculations
-CreatePlots.py : A file used to create holoviews plots when generating results to reproduce the paper
-PopDOM1.yaml : A problem definitions file to define step 1 parameters in the paper
-PopDOM2.yaml : A A problem definitions template file to generate step 2 parameters for different strategies used in the paper
-Results.zip : Archived results created running the command python PopDOM.py PAPER
-Readme.md : The file that you are reading now
+* PopDOM.py : Main file with calculations
+* CreatePlots.py : A file used to create holoviews plots when generating results to reproduce the paper
+* PopDOM1.yaml : A problem definitions file to define step 1 parameters in the paper
+* PopDOM2.yaml : A A problem definitions template file to generate step 2 parameters for different strategies used in the paper
+* Results.zip : Archived results created running the command python PopDOM.py PAPER
+* Readme.md : The file that you are reading now
 
 
 VERSION HISTORY:
